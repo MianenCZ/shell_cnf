@@ -1,0 +1,91 @@
+
+export WLINKS=/mnt/c/Users/MSI/wlinks
+
+if [ -e .winlinks ]; then
+	source ~/.winlinks
+else
+	genWlinks $WLINKS C:/Users/MSI/wlinks/ > ~/.winlinks
+	source ~/.winlinks
+fi
+
+alias lock="wcmd \"rundll32.exe user32.dll,LockWorkStation\""
+alias shutdown="wcmd shutdown /p /f"
+alias hibernate="wcmd shutdown /h /f"
+alias panel="/d/Documents/Programing_CS/WinExtension/WinExtension/bin/Release/WinExtension.exe"
+
+# Development tools
+alias htmlres="/mnt/d/Office/Quanti/Tools/QuantiTools/HtmlResponse/bin/Debug/netcoreapp3.1/HtmlResponse.exe"
+
+# Windows app controls
+function wcmd ()
+{
+	powershell.exe -c "$@"
+}
+
+function cdd() {
+	cd /$1
+}
+
+function wrun() { 
+    	for i in $@
+		do
+			echo $i
+			# get full unsymlinked filename 
+			file=$(readlink -e $i) 
+			dir=$(dirname "$file")
+			# echo "dir $dir"
+			relpath=$(realpath --relative-to=. $dir)
+			# echo "path $relpath"
+
+
+			base=$(basename "$file")
+			# echo "base $base"
+			# open item using default windows application 
+
+			powershell.exe -c "cd \"$relpath\"; explorer.exe \"$base\""
+
+
+			# actdir $PWD;
+			# (cd "$dir"; explorer.exe "$base")
+			# cd $actdir
+		done
+}
+
+# Windows compatibility function
+
+function ping(){
+	powershell.exe -c "ping $@"
+}
+
+function tracert(){
+	powershell.exe -c "tracert $@"
+}
+
+function pathping(){
+	powershell.exe -c "pathping $@"
+}
+
+function ipconfig(){
+	powershell.exe -c "ipconfig"
+}
+
+function getmac(){
+	powershell.exe -c "getmac $@"
+}
+
+function nslookup(){
+	powershell.exe -c "nslookup $@"
+}
+
+function netstat(){
+	powershell.exe -c "netstat $@"
+}
+
+function netsh(){
+	powershell.exe -c "netsh $@"
+}
+
+function () {
+	# powershell.exe -c "netsh wlan connect name=\"$1\" interface=\"Wi-Fi\""
+	
+}
